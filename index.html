@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Random User API</title>
+    </head>
+    <body>
+        <h1>Random User API</h1>
+        <div class="container">
+            <div class="user-info">
+                <p><strong>Nome:</strong> <span id="name">N/A</span></p>
+                <p><strong>Email:</strong> <span id="email">N/A</span></p>
+                <p><strong>Data de Nascimento:</strong> <span id="dob">N/A</span></p>
+                <p><strong>Idade:</strong> <span id="age">N/A</span></p>
+            </div>
+            <button id="fetchUser">Gerar</button>
+        </div>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background-color: #f4f4f9;
+                margin: 0;
+            }
+            h1 {
+                color: #000000;
+            }
+            .container {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                width: 300px; 
+                margin: 0 auto; 
+                text-align: left;
+            }
+            .user-info p {
+                margin: 10px 0;
+                font-size: 1.1rem;
+            }
+            button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                background-color: #a61bf7;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #5e1ec4;
+            }
+        </style>
+        <script>
+            function getUserData() {
+                fetch('https://randomuser.me/api/')
+                    .then(response => response.json())
+                    .then(data => {
+                        const user = data.results[0];
+                        document.getElementById('name').innerText = `${user.name.first} ${user.name.last}`;
+                        document.getElementById('email').innerText = user.email;
+                        document.getElementById('dob').innerText = new Date(user.dob.date).toLocaleDateString();
+                        document.getElementById('age').innerText = user.dob.age;
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar dados:', error);
+                    });
+            }
+            document.getElementById('fetchUser').addEventListener('click', getUserData);
+        </script>
+    </body>
+</html>
